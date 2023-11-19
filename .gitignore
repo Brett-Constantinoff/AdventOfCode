@@ -1,0 +1,10 @@
+**.sln
+**.vcxproj
+**.vcxproj.user
+**.vcxproj.filters
+**.DS_Store
+**.a
+2015/bin
+2015/bin-int
+.vs/
+.vscode
