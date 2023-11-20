@@ -4,8 +4,7 @@
 #include <algorithm>
 #include <unordered_set>
 
-#include "Day.h"
-#include "AoCUtilities.h"
+#include "DayBase.h"
 
 template<class T>
 struct Vec2
@@ -13,7 +12,7 @@ struct Vec2
 public:
 	Vec2() : x{ 0 }, y{ 0 } {}
 
-	const double Manhatten(const Vec2& other) {
+	const double manhatten(const Vec2& other) {
 		return std::abs(other.x - x) + std::abs(other.y - y);
 	}
 public:

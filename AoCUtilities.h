@@ -4,34 +4,46 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include <functional>
+
+#include "Timer.h"
 
 class AoCUtilities
 {
 public:
-    static AoCUtilities& GetInstance()
+    static AoCUtilities& getInstance()
     {
         static AoCUtilities instance;
         return instance;
     }
 
-    std::string FileToString(const std::string& file) const
+    static void display(std::function<void(void)> func, bool part2 = false) {
+        auto& timer = Timer::getInstance();
+        std::cout << (part2 ? "Part2" : "Part1") << " Answer: ";
+        timer.start();
+        func();
+        std::cout << "\n";
+        timer.stop();
+    }
+
+    static std::string fileToString(const std::string& file)
     {
         std::ifstream input{ file };
         try
         {
-            return ReadIntoString(input);
+            return readIntoString(input);
         }
         catch (const std::ifstream::failure& e) {
             std::cerr << "File error: " << e.what() << std::endl;
         }
     }
 
-    std::vector<std::string> FileToVector(const std::string& file, const char delim = NULL) const
+    static std::vector<std::string> fileToVector(const std::string& file, const char delim = NULL)
     {
         std::ifstream input{ file };
         try
         {
-            return ReadIntoVector(input, delim);
+            return readIntoVector(input, delim);
         }
         catch (const std::ifstream::failure& e)
         {
@@ -39,12 +51,12 @@ public:
         }
     }
 
-    int32_t Count(const char c, const std::string input) const
+    static int32_t count(const char c, const std::string input)
     {
         return std::count(input.begin(), input.end(), c );
     }
 
-    int32_t StrToInt(const std::string& s) const
+    static int32_t strToInt(const std::string& s)
     {
         return std::atoi(s.c_str());
     }
@@ -52,7 +64,7 @@ public:
 private:
     AoCUtilities() { }
 
-    std::string ReadIntoString(std::ifstream& input) const
+    static std::string readIntoString(std::ifstream& input)
     {
         if (!input.is_open())
             throw std::ifstream::failure("Could not open the file");
@@ -62,7 +74,7 @@ private:
         return fileContent;
     }
 
-    std::vector<std::string> ReadIntoVector(std::ifstream& input, const char delim) const
+    static std::vector<std::string> readIntoVector(std::ifstream& input, const char delim)
     {
         if (!input.is_open())
             throw std::ifstream::failure("Could not open the file");
@@ -71,21 +83,21 @@ private:
         while (std::getline(input, line))
         {
             if (delim == NULL)
-                ParseByChar(fileData, line);
+                parseByChar(fileData, line);
             else
-                ParseByDelim(fileData, line, delim);
+                parseByDelim(fileData, line, delim);
         }
         input.close();
         return fileData;
     }
 
-    void ParseByChar(std::vector<std::string>& fileData, const std::string& line) const
+    static void parseByChar(std::vector<std::string>& fileData, const std::string& line)
     {
         for (const auto& ch : line)
             fileData.push_back(std::string{ch});
     }
 
-    void ParseByDelim(std::vector<std::string>& fileData, std::string& line, const char delim) const
+    static void parseByDelim(std::vector<std::string>& fileData, std::string& line, const char delim)
     {
         std::istringstream ss{ line };
         std::string value{};

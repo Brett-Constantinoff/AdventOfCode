@@ -12,6 +12,8 @@ workspace "AdventOfCode"
         optimize "Speed"
         flags { "LinkTimeOptimization" }
 
+    files {"AoCUtilities.h", "DayBase.h", "Common.h", "Timer.h"}
+
 include "2015/premake5.lua"
 include "2016/premake5.lua"
 include "2017/premake5.lua"

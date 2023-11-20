@@ -1,34 +1,36 @@
 #pragma once
 #include "../../Common.h"
 
-template<class T, class O>
-class Day1 : public Day<T, O>
+template<class Output>
+class Day1 : public DayBase<Output>
 {
 public:
-    Day1<T, O>(std::string file) : Day<T, O>(file)
+    Day1<Output>(std::string file) : DayBase(file)
     {
-        SetOutput();
-        Part1();
-        Part2();
+        auto& utils = AoCUtilities::getInstance();
+        setOutput();
+
+        utils.display([this]() { this->part1(); }, false);
+        utils.display([this]() { this->part2(); }, true);
     }
 
     ~Day1() {}
 
-    void Part1() override
+    void part1() override
     {
-        auto utils = AoCUtilities::GetInstance();
+        auto utils = AoCUtilities::getInstance();
         Vec2<int32_t> origin{};
         Vec2<int32_t> dest{};
         m_dir = Direction::North;
 
         for (const auto coord : m_output)
-            ProcessCoordinate(coord, utils, dest);
-        DisplayPart1Answer(origin.Manhatten(dest));
+            processCoordinate(coord, utils, dest);
+       std::cout << origin.manhatten(dest);
     }
 
-    void Part2() override
+    void part2() override
     {
-        auto utils = AoCUtilities::GetInstance();
+        auto utils = AoCUtilities::getInstance();
         Vec2<int32_t> origin{};
         Vec2<int32_t> dest{};
         m_dir = Direction::North;
@@ -36,39 +38,40 @@ public:
 
         for (const auto coord : m_output)
         {
-            ProcessDirection(coord);
-            for (int32_t i = 0; i < utils.StrToInt(coord.substr(1)); i++)
-                MoveAndUpdateSeen(dest, origin, seen);
+            processDirection(coord);
+            for (int32_t i = 0; i < utils.strToInt(coord.substr(1)); i++)
+            {
+                if (moveAndUpdateSeen(dest, origin, seen))
+                    return;
+            }
+               
         }
     }
 
-    void SetOutput() override
+    void setOutput() override
     {
-        auto utils = AoCUtilities::GetInstance();
-        m_output = utils.FileToVector<std::string>(m_file, ',');
+        auto utils = AoCUtilities::getInstance();
+        m_output = utils.fileToVector(m_file, ',');
     }
 
 private:
-    enum class Direction { North, East, South, West };
-    Direction m_dir{};
-
-    void ProcessCoordinate(const std::string& coord, AoCUtilities& utils, Vec2<int32_t>& dest)
+    void processCoordinate(const std::string& coord, AoCUtilities& utils, Vec2<int32_t>& dest)
     {
         char direction = coord[0];
         std::string stepsStr = coord.substr(1);
-        int32_t steps = utils.StrToInt(stepsStr);
+        int32_t steps = utils.strToInt(stepsStr);
 
-        UpdateDirection(direction);
-        Move(dest, steps);
+        updateDirection(direction);
+        move(dest, steps);
     }
 
-    void ProcessDirection(const std::string& coord)
+    void processDirection(const std::string& coord)
     {
         char direction = coord[0];
-        UpdateDirection(direction);
+        updateDirection(direction);
     }
 
-    void UpdateDirection(char turnDirection)
+    void updateDirection(char turnDirection)
     {
         if (turnDirection == 'R')
             m_dir = static_cast<Direction>((static_cast<int32_t>(m_dir) + 1) % 4);
@@ -76,7 +79,7 @@ private:
             m_dir = static_cast<Direction>((static_cast<int32_t>(m_dir) + 3) % 4);
     }
 
-    void Move(Vec2<int32_t>& dest, int32_t steps)
+    void move(Vec2<int32_t>& dest, int32_t steps)
     {
         switch (m_dir)
         {
@@ -87,17 +90,22 @@ private:
         }
     }
 
-    void MoveAndUpdateSeen(Vec2<int32_t>& dest, Vec2<int32_t>& origin, std::vector<Vec2<int32_t>>& seen)
+    bool moveAndUpdateSeen(Vec2<int32_t>& dest, Vec2<int32_t>& origin, std::vector<Vec2<int32_t>>& seen)
     {
-        Move(dest, 1);
+        move(dest, 1);
         for (const auto& point : seen)
         {
             if (dest.x == point.x && dest.y == point.y)
             {
-                DisplayPart2Answer(origin.Manhatten(dest));
-                std::exit(0);
+                std::cout << origin.manhatten(dest);
+                return true;
             }
         }
         seen.push_back(dest);
+        return false;
     }
+
+private:
+    enum class Direction { North, East, South, West };
+    Direction m_dir{};
 };

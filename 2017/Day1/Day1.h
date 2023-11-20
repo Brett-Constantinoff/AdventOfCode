@@ -1,44 +1,45 @@
 #pragma once
 #include "../../Common.h"
 
-template<class T, class O>
-class Day1 : public Day<T, O>
+template<class Output>
+class Day1 : public DayBase<Output>
 {
 public:
-    Day1<T, O>(std::string file) : Day<T, O>(file)
+    Day1<Output>(std::string file) : DayBase(file)
     {
-        SetOutput();
-        Part1();
-        Part2();
-    }
+        auto& utils = AoCUtilities::getInstance();
+        setOutput();
 
+        utils.display([this]() { this->part1(); }, false);
+        utils.display([this]() { this->part2(); }, true);
+    }
     ~Day1() {}
 
-    void Part1() override
+    void part1() override
     {
-        DisplayPart1Answer(CaptchaSum(1));
+       std::cout << captchaSum(1);
     }
 
-    void Part2() override
+    void part2() override
     {
-        DisplayPart2Answer(CaptchaSum(m_output.size() / 2));
+        std::cout << captchaSum(m_output.size() / 2);
     }
 
-    void SetOutput() override
+    void setOutput() override
     {
-        auto utils = AoCUtilities::GetInstance();
-        m_output = utils.FileToVector(m_file);
+        auto& utils = AoCUtilities::getInstance();
+        m_output = utils.fileToVector(m_file);
     }
 
 private:
-    int32_t CaptchaSum(const int32_t& step)
+    int32_t captchaSum(const int32_t& step)
     {
+        auto& utils = AoCUtilities::getInstance();
         int32_t sum{};
-        auto utils = AoCUtilities::GetInstance();
         for (int32_t i = 0; i < m_output.size(); i++)
         {
-            int32_t curr{ utils.StrToInt(m_output[i]) };
-            int32_t next{ utils.StrToInt(m_output[(i + step) % m_output.size()]) };
+            int32_t curr{ utils.strToInt(m_output[i]) };
+            int32_t next{ utils.strToInt(m_output[(i + step) % m_output.size()]) };
 
             if (curr == next)
                 sum += curr;
