@@ -45,7 +45,7 @@ public:
     void SetOutput() override
     {
         auto utils = AoCUtilities::GetInstance();
-        m_output = utils.FileToVector<std::string>(m_file);
+        m_output = utils.FileToVector<std::string>(m_file, ',');
     }
 
 private:
@@ -71,9 +71,9 @@ private:
     void UpdateDirection(char turnDirection)
     {
         if (turnDirection == 'R')
-            m_dir = static_cast<Direction>((static_cast<int>(m_dir) + 1) % 4);
+            m_dir = static_cast<Direction>((static_cast<int32_t>(m_dir) + 1) % 4);
         else
-            m_dir = static_cast<Direction>((static_cast<int>(m_dir) + 3) % 4);
+            m_dir = static_cast<Direction>((static_cast<int32_t>(m_dir) + 3) % 4);
     }
 
     void Move(Vec2<int32_t>& dest, int32_t steps)

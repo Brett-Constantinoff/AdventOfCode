@@ -14,3 +14,4 @@ workspace "AdventOfCode"
 
 include "2015/premake5.lua"
 include "2016/premake5.lua"
+include "2017/premake5.lua"
