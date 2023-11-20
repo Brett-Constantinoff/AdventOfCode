@@ -58,7 +58,7 @@ public:
 
     static int32_t strToInt(const std::string& s)
     {
-        return std::atoi(s.c_str());
+        return std::stoi(s.c_str());
     }
 
 private:

@@ -3,6 +3,8 @@
 #include <iostream>
 #include <algorithm>
 #include <unordered_set>
+#include <numeric>
+#include <set>
 
 #include "DayBase.h"
 
