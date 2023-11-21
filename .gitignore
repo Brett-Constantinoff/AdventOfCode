@@ -5,6 +5,14 @@
 **.DS_Store
 **.a
 2015/bin
-2015/bin-int
+2015/obj
+2016/bin
+2016/obj
+2017/bin
+2017/obj
+2018/bin
+2018/obj
+2019/bin
+2019/obj
 .vs/
 .vscode
