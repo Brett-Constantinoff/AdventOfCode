@@ -22,8 +22,13 @@ public:
 	T y;
 };
 
-template<class T>
+template<typename T>
 bool operator==(const Vec2<T>& lhs, const Vec2<T>& rhs)
 {
 	return lhs.x == rhs.x && lhs.y == rhs.y;
+}
+
+static std::string defaultConverter(std::string& item)
+{
+	return item;
 }

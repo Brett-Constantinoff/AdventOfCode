@@ -21,7 +21,7 @@ public:
         int32_t sum{};
         for (const auto& entry : m_output)
         {
-            int32_t mass{ (utils.strToInt(entry) / 3) - 2};
+            int32_t mass{ (entry / 3) - 2};
             sum += mass;
         }
         std::cout << sum;
@@ -32,14 +32,18 @@ public:
         auto& utils = AoCUtilities::getInstance();
         int32_t sum{};
         for (const auto& entry : m_output)
-            sum += recurse(utils.strToInt(entry));
+            sum += recurse(entry);
         std::cout << sum;
     }
 
     void setOutput() override
     {
         auto& utils = AoCUtilities::getInstance();
-        m_output = utils.fileToVector(m_file, '\n');
+        m_output = utils.fileToVector<Output>(m_file, '\n', [&utils](const std::string& str) -> Output
+            {
+                return utils.strToInt(str);
+            }
+        );
     }
 
 private:

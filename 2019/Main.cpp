@@ -3,6 +3,6 @@
 
 int main()
 {
-    Day1<std::vector<std::string>> day1("inputs/day1Input.txt");
+    Day1<int32_t> day1("inputs/day1Input.txt");
     return 0;
 }

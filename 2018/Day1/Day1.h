@@ -49,7 +49,7 @@ public:
     void setOutput() override
     {
         auto& utils = AoCUtilities::getInstance();
-        m_output = utils.fileToVector(m_file, '\n');
+        m_output = utils.fileToVector<Output>(m_file, '\n');
     }
 
 private:

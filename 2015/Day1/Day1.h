@@ -22,16 +22,16 @@ public:
 	void part1() override
 	{
 		auto utils = AoCUtilities::getInstance();
-		const int32_t& count = utils.count('(', m_output) - utils.count(')', m_output);
+		const int32_t& count = utils.count('(', m_output[0]) - utils.count(')', m_output[0]);
 		std::cout << count;
 	}
 
 	void part2() override
 	{
 		int32_t count = 0;
-		for (int32_t i = 0; i < m_output.size(); i++)
+		for (int32_t i = 0; i < m_output[0].size(); i++)
 		{
-			count += (m_output[i] == '(') ? 1 : -1;
+			count += (m_output[0][i] == '(') ? 1 : -1;
 
 			if (count == -1) {
 				std::cout << i + 1;
@@ -43,6 +43,6 @@ public:
 	void setOutput() override
 	{
 		auto utils = AoCUtilities::getInstance();
-		m_output = utils.fileToString(m_file);
+		m_output.push_back(utils.fileToString(m_file));
 	}
 };
