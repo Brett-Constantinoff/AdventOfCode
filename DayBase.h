@@ -18,5 +18,5 @@ public:
 
 protected:
 	std::string m_file{};
-	Output m_output{};
+	std::vector<Output> m_output{};
 };

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <functional>
 
+
 #include "Timer.h"
 
 class AoCUtilities
@@ -38,12 +39,14 @@ public:
         }
     }
 
-    static std::vector<std::string> fileToVector(const std::string& file, const char delim = NULL)
+    template<typename T>
+    static std::vector<T> fileToVector(const std::string& file, const char delim = NULL,
+        std::function<T(const std::string&)> converter = [](const std::string& s) -> T {return T(s); })
     {
         std::ifstream input{ file };
         try
         {
-            return readIntoVector(input, delim);
+            return readIntoVector<T>(input, delim, converter);
         }
         catch (const std::ifstream::failure& e)
         {
@@ -66,45 +69,63 @@ private:
 
     static std::string readIntoString(std::ifstream& input)
     {
-        if (!input.is_open())
-            throw std::ifstream::failure("Could not open the file");
+        checkFileStatus(input);
         std::string fileContent((std::istreambuf_iterator<char>(input)),
             std::istreambuf_iterator<char>());
         input.close();
         return fileContent;
     }
 
-    static std::vector<std::string> readIntoVector(std::ifstream& input, const char delim)
+    template<typename T>
+    static std::vector<T> readIntoVector(std::ifstream& input, const char delim,
+        std::function<T(const std::string&)> converter)
     {
-        if (!input.is_open())
-            throw std::ifstream::failure("Could not open the file");
-        std::vector<std::string> fileData{};
+        checkFileStatus(input);
+        std::vector<T> fileData{};
         std::string line{};
         while (std::getline(input, line))
-        {
-            if (delim == NULL)
-                parseByChar(fileData, line);
-            else
-                parseByDelim(fileData, line, delim);
-        }
+            parseLine(fileData, line, delim, converter);
         input.close();
         return fileData;
     }
 
-    static void parseByChar(std::vector<std::string>& fileData, const std::string& line)
+    static void checkFileStatus(std::ifstream& input)
     {
-        for (const auto& ch : line)
-            fileData.push_back(std::string{ch});
+        if (!input.is_open())
+            throw std::ifstream::failure("Could not open the file");
     }
 
-    static void parseByDelim(std::vector<std::string>& fileData, std::string& line, const char delim)
+    template<typename T>
+    static void parseLine(std::vector<T>& fileData, std::string& line, const char delim,
+        std::function<T(const std::string&)> converter)
+    {
+        if (delim == NULL)
+            parseByChar<T>(fileData, line, converter);
+        else
+            parseByDelim<T>(fileData, line, delim, converter);
+    }
+
+    template<typename T>
+    static void parseByChar(std::vector<T>& fileData, const std::string& line,
+        std::function<T(const std::string&)> converter)
+    {
+        for (const auto& ch : line)
+        {
+            std::string strValue(1, ch);
+            fileData.push_back(converter(strValue));
+        }
+    }
+
+    template<typename T>
+    static void parseByDelim(std::vector<T>& fileData, std::string& line, const char delim, 
+        std::function<T(const std::string&)> converter)
     {
         std::istringstream ss{ line };
         std::string value{};
         while (std::getline(ss, line, delim))
         {
             if (std::istringstream(line) >> value)
-                fileData.push_back(value);
+               fileData.push_back(converter(value));
         }
     }
 };
