@@ -19,7 +19,8 @@ public:
     void part1() override
     {
         int32_t target{ 2020 };
-        for (int32_t i = 0, j = m_output.size() - 1; i < j;)
+        std::size_t size{ m_output.size() };
+        for (std::size_t i{0}, j = size - 1; i < j;)
         {
             if (m_output[i] + m_output[j] == target)
             {
@@ -37,7 +38,8 @@ public:
         int32_t target{ 2020 };
         std::vector<Output> res{};
         int32_t sum{ 1 };
-        for (int32_t i = 0, j = i + 1, k = m_output.size() - 1; i < m_output.size(); ++i)
+        std::size_t size{ m_output.size() };
+        for (std::size_t i{ 0 }, j{ i + 1 }, k{ size - 1 }; i < size; ++i)
         {
             while (j < k)
                 movePointers(res, target, i, j, k);
@@ -58,9 +60,9 @@ private:
     {
         if (m_output[i] + m_output[j] + m_output[k] == target)
         {
-            res.push_back(m_output[i]);
-            res.push_back(m_output[j]);
-            res.push_back(m_output[k]);
+            res.emplace_back(m_output[i]);
+            res.emplace_back(m_output[j]);
+            res.emplace_back(m_output[k]);
             ++j;
         }
         else if (m_output[i] + m_output[j] + m_output[k] < target)

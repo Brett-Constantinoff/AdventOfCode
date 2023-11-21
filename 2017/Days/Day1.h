@@ -36,10 +36,11 @@ private:
     {
         auto& utils = AoCUtilities::getInstance();
         int32_t sum{};
-        for (int32_t i = 0; i < m_output.size(); i++)
+        std::size_t size{ m_output.size() };
+        for (std::size_t i{0}; i < size; i++)
         {
             int32_t curr{ utils.strToInt(m_output[i]) };
-            int32_t next{ utils.strToInt(m_output[(i + step) % m_output.size()]) };
+            int32_t next{ utils.strToInt(m_output[(i + step) % size]) };
 
             if (curr == next)
                 sum += curr;

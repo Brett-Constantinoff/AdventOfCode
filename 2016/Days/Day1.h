@@ -101,7 +101,7 @@ private:
                 return true;
             }
         }
-        seen.push_back(dest);
+        seen.emplace_back(dest);
         return false;
     }
 

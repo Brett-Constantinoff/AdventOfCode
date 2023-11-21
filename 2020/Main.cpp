@@ -3,6 +3,6 @@
 
 int main()
 {
-    Day1<int32_t> day1("inputs/day1Input.txt");
+    Day1<int32_t> day1("inputs/day1.txt");
     return 0;
 }

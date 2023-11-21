@@ -43,6 +43,6 @@ public:
 	void setOutput() override
 	{
 		auto utils = AoCUtilities::getInstance();
-		m_output.push_back(utils.fileToString(m_file));
+		m_output.emplace_back(utils.fileToString(m_file));
 	}
 };

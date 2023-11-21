@@ -65,11 +65,11 @@ public:
 
         while (end != std::string::npos)
         {
-            data.push_back(converter(input.substr(start, end - start)));
+            data.emplace_back(converter(input.substr(start, end - start)));
             start = end + delim.length();
             end = input.find(delim, start);
         }
-        data.push_back(converter(input.substr(start)));
+        data.emplace_back(converter(input.substr(start)));
 
         return data;
     }
@@ -132,7 +132,7 @@ private:
         for (const auto& ch : line)
         {
             std::string strValue(1, ch);
-            fileData.push_back(converter(strValue));
+            fileData.emplace_back(converter(strValue));
         }
     }
 
@@ -143,7 +143,7 @@ private:
         // if the line is empty, add sep to the vector in place of the empty line
         if (line.empty())
         {
-            fileData.push_back(converter(sep));
+            fileData.emplace_back(converter(sep));
             return;
         }
 
@@ -152,7 +152,7 @@ private:
         while (std::getline(ss, line, delim))
         {
             if (std::istringstream(line) >> value)
-               fileData.push_back(converter(value));
+               fileData.emplace_back(converter(value));
         }
     }
 };
