@@ -20,7 +20,6 @@ public:
 
     void part1() override
     {
-        std::string
     }
 
     void part2() override
@@ -30,9 +29,6 @@ public:
     void setOutput() override
     {
         auto utils = AoCUtilities::getInstance();
-        m_output.push_back(utils.fileToString(m_file));
+        m_output = utils.fileToVector<Output>(m_file);
     }
-
-private:
-    
 };
