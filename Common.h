@@ -9,6 +9,7 @@
 #include "DayBase.h"
 #include "AoCUtilities.h"
 
+// DATA STRUCTURES
 template<class T>
 struct Vec2
 {
@@ -29,6 +30,7 @@ bool operator==(const Vec2<T>& lhs, const Vec2<T>& rhs)
 	return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 
+// CONVERTERS
 static int32_t strToIntConverter(const std::string& str)
 {
 	return AoCUtilities::getInstance().strToInt(str);

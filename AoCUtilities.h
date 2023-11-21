@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <sstream>
 #include <functional>
-
+#include <regex>
 
 #include "Timer.h"
 
@@ -41,17 +41,37 @@ public:
 
     template<typename T>
     static std::vector<T> fileToVector(const std::string& file, const char delim = NULL,
-        std::function<T(const std::string&)> converter = [](const std::string& s) -> T {return T(s); })
+        const char* sep = "", std::function<T(const std::string&)> converter = [](const std::string& s) -> T {return T(s); })
     {
         std::ifstream input{ file };
         try
         {
-            return readIntoVector<T>(input, delim, converter);
+            return readIntoVector<T>(input, delim, sep, converter);
         }
         catch (const std::ifstream::failure& e)
         {
             std::cerr << "File error: " << e.what() << std::endl;
         }
+    }
+
+    template <typename T>
+    std::vector<T> dataFromStr(const std::string& input,
+        std::function<T(const std::string&)> converter = [](const std::string& s) -> T { return T(s); },
+        const std::string& delim = " ")
+    {
+        std::vector<T> data{};
+        std::size_t start{};
+        std::size_t end = input.find(delim);
+
+        while (end != std::string::npos)
+        {
+            data.push_back(converter(input.substr(start, end - start)));
+            start = end + delim.length();
+            end = input.find(delim, start);
+        }
+        data.push_back(converter(input.substr(start)));
+
+        return data;
     }
 
     static int32_t count(const char c, const std::string input)
@@ -78,13 +98,13 @@ private:
 
     template<typename T>
     static std::vector<T> readIntoVector(std::ifstream& input, const char delim,
-        std::function<T(const std::string&)> converter)
+        const char* sep, std::function<T(const std::string&)> converter)
     {
         checkFileStatus(input);
         std::vector<T> fileData{};
         std::string line{};
         while (std::getline(input, line))
-            parseLine(fileData, line, delim, converter);
+            parseLine(fileData, line, delim, sep, converter);
         input.close();
         return fileData;
     }
@@ -97,12 +117,12 @@ private:
 
     template<typename T>
     static void parseLine(std::vector<T>& fileData, std::string& line, const char delim,
-        std::function<T(const std::string&)> converter)
+        const char* sep, std::function<T(const std::string&)> converter)
     {
         if (delim == NULL)
             parseByChar<T>(fileData, line, converter);
         else
-            parseByDelim<T>(fileData, line, delim, converter);
+            parseByDelim<T>(fileData, line, delim, sep, converter);
     }
 
     template<typename T>
@@ -118,8 +138,15 @@ private:
 
     template<typename T>
     static void parseByDelim(std::vector<T>& fileData, std::string& line, const char delim, 
-        std::function<T(const std::string&)> converter)
+        const char* sep, std::function<T(const std::string&)> converter)
     {
+        // if the line is empty, add sep to the vector in place of the empty line
+        if (line.empty())
+        {
+            fileData.push_back(converter(sep));
+            return;
+        }
+
         std::istringstream ss{ line };
         std::string value{};
         while (std::getline(ss, line, delim))

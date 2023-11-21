@@ -1,2 +1,3 @@
 #pragma once
-#include "Day1/Day1.h"
+#include "Days/Day1.h"
+#include "Days/Day2.h"
