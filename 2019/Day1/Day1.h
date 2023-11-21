@@ -39,11 +39,7 @@ public:
     void setOutput() override
     {
         auto& utils = AoCUtilities::getInstance();
-        m_output = utils.fileToVector<Output>(m_file, '\n', [&utils](const std::string& str) -> Output
-            {
-                return utils.strToInt(str);
-            }
-        );
+        m_output = utils.fileToVector<Output>(m_file, '\n', strToIntConverter);
     }
 
 private:

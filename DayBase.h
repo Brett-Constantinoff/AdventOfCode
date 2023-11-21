@@ -3,8 +3,6 @@
 #include <iostream>
 #include <functional>
 
-#include "AoCUtilities.h"
-
 template<class Output>
 class DayBase
 {

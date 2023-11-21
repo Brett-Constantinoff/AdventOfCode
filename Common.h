@@ -7,6 +7,7 @@
 #include <set>
 
 #include "DayBase.h"
+#include "AoCUtilities.h"
 
 template<class T>
 struct Vec2
@@ -28,7 +29,7 @@ bool operator==(const Vec2<T>& lhs, const Vec2<T>& rhs)
 	return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 
-static std::string defaultConverter(std::string& item)
+static int32_t strToIntConverter(const std::string& str)
 {
-	return item;
+	return AoCUtilities::getInstance().strToInt(str);
 }
