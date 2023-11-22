@@ -21,7 +21,7 @@ public:
         std::string combo{};
         Vec2<int32_t> coord{};
         for (const auto& entry : m_output)
-            handleInstructions(combo, coord, entry, false);
+            handleInstructions(combo, coord, entry, m_buttons1);
     }
 
     void part2() override
@@ -29,7 +29,7 @@ public:
         std::string combo{};
         Vec2<int32_t> coord{-2, 0};
         for (const auto& entry : m_output)
-            handleInstructions(combo, coord, entry, true);
+            handleInstructions(combo, coord, entry, m_buttons2);
     }
 
     void setOutput() override
@@ -40,42 +40,25 @@ public:
 
 private:
     void handleInstructions(std::string& combo, Vec2<int32_t>& coord, const std::string& instructions,
-        const bool& part2)
+       const std::unordered_map<Vec2<int32_t>, std::string>& buttons)
     {
         std::size_t size{ instructions.size() };
         for (std::size_t i{ 0 }; i < size; i++)
         {
             const std::string& instruction{ instructions[i] };
-            validButton(part2, coord, instruction);
+            validButton(buttons, coord, instruction);
         }
-        if (part2)
-        {
-            auto it{ m_buttons2.find(coord) };
-            if (it != m_buttons2.end()) std::cout << it->second;
-        }
-        else
-        {
-            auto it{ m_buttons1.find(coord) };
-            if (it != m_buttons1.end()) std::cout << it->second;
-        }
+        auto it{ buttons.find(coord) };
+        if (it != buttons.end()) std::cout << it->second;
     }
 
-    void validButton(const bool& part2, Vec2<int32_t>& coord, const std::string& instruction) 
+    void validButton(const std::unordered_map<Vec2<int32_t>, std::string>& buttons, Vec2<int32_t>& coord, 
+        const std::string& instruction)
     {
-        if (!part2)
-        {
-            if (instruction == "U" && m_buttons1.find({ coord.x, coord.y + 1 }) != m_buttons1.end()) coord.y++;
-            else if (instruction == "D" && m_buttons1.find({ coord.x, coord.y - 1 }) != m_buttons1.end()) coord.y--;
-            else if (instruction == "R" && m_buttons1.find({ coord.x + 1, coord.y }) != m_buttons1.end()) coord.x++;
-            else if (instruction == "L" && m_buttons1.find({ coord.x - 1, coord.y }) != m_buttons1.end()) coord.x--;
-        }
-        else
-        {
-            if (instruction == "U" && m_buttons2.find({ coord.x, coord.y + 1 }) != m_buttons2.end()) coord.y++;
-            else if (instruction == "D" && m_buttons2.find({ coord.x, coord.y - 1 }) != m_buttons2.end()) coord.y--;
-            else if (instruction == "R" && m_buttons2.find({ coord.x + 1, coord.y }) != m_buttons2.end()) coord.x++;
-            else if (instruction == "L" && m_buttons2.find({ coord.x - 1, coord.y }) != m_buttons2.end()) coord.x--;
-        }
+        if (instruction == "U" && buttons.find({ coord.x, coord.y + 1 }) != buttons.end()) coord.y++;
+        else if (instruction == "D" && buttons.find({ coord.x, coord.y - 1 }) != buttons.end()) coord.y--;
+        else if (instruction == "R" && buttons.find({ coord.x + 1, coord.y }) != buttons.end()) coord.x++;
+        else if (instruction == "L" && buttons.find({ coord.x - 1, coord.y }) != buttons.end()) coord.x--;
     }
 
 private:
