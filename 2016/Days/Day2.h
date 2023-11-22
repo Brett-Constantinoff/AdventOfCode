@@ -8,8 +8,6 @@ public:
     Day2<Output>(std::string file) : DayBase(file)
     {
         auto& utils = AoCUtilities::getInstance();
-        setOutput();
-
         utils.display([this]() { this->part1(); }, false);
         utils.display([this]() { this->part2(); }, true);
     }
@@ -18,6 +16,7 @@ public:
 
     void part1() override
     {
+        setOutput();
         std::string combo{};
         Vec2<int32_t> coord{};
         for (const auto& entry : m_output)

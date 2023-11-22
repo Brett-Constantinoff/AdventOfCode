@@ -7,11 +7,8 @@ class Day1 : public DayBase<Output>
 public:
     Day1<Output>(std::string file) : DayBase(file)
     {
-        auto& utils = AoCUtilities::getInstance();
         setOutput();
-
-        utils.display([this]() { this->part1(); }, false);
-        utils.display([this]() { this->part2(); }, true);
+        AoCUtilities::getInstance().display(*this);
     }
 
     ~Day1() {}

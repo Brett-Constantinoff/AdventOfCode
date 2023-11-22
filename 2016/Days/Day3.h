@@ -8,8 +8,6 @@ public:
     Day3<Output>(std::string file) : DayBase(file)
     {
         auto& utils = AoCUtilities::getInstance();
-        setOutput();
-
         utils.display([this]() { this->part1(); }, false);
         utils.display([this]() { this->part2(); }, true);
     }
@@ -18,6 +16,7 @@ public:
 
     void part1() override
     {
+        setOutput();
         const std::size_t size{ m_output.size() };
         int32_t valid{};
         for (std::size_t i{ 0 }; i < size - 3; i += 3)

@@ -8,6 +8,7 @@
 #include <regex>
 
 #include "Timer.h"
+#include "DayBase.h"
 
 class AoCUtilities
 {
@@ -18,13 +19,13 @@ public:
         return instance;
     }
 
-    static void display(std::function<void(void)> func, bool part2 = false) {
+    template <typename T>
+    static void display(const T& day) {
         auto& timer = Timer::getInstance();
-        std::cout << (part2 ? "Part2" : "Part1") << " Answer: ";
         timer.start();
-        func();
-        std::cout << "\n";
-        timer.stop();
+        day.part1();
+        day.part2();
+        timer.stop(day.getName());
     }
 
     static std::string fileToString(const std::string& file)
@@ -56,8 +57,8 @@ public:
 
     template <typename T>
     std::vector<T> dataFromStr(const std::string& input,
-        std::function<T(const std::string&)> converter = [](const std::string& s) -> T { return T(s); },
-        const std::string& delim = " ")
+        const std::string& delim = " ",
+        std::function<T(const std::string&)> converter = [](const std::string& s) -> T { return T(s); })
     {
         std::vector<T> data{};
         std::size_t start{};
