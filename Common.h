@@ -17,6 +17,16 @@ struct Vec2
 public:
 	Vec2() : x{ 0 }, y{ 0 } {}
 
+	Vec2(T& x, T& y) : x{ x }, y{ y } {}
+
+	Vec2(std::initializer_list<T> list)
+	{
+		auto it{ list.begin() };
+		x = *it;
+		it++;
+		y = *it;
+	}
+
 	const double manhatten(const Vec2& other) 
 	{
 		return std::abs(other.x - x) + std::abs(other.y - y);
@@ -54,4 +64,10 @@ namespace std {
 static int32_t strToIntConverter(const std::string& str)
 {
 	return AoCUtilities::getInstance().strToInt(str);
+}
+
+template <typename T>
+static std::string& intToStrConverter(const T& i)
+{
+	return AoCUtilities::getInstance().intToStr<T>(i);
 }

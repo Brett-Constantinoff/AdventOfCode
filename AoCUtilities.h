@@ -84,6 +84,12 @@ public:
         return std::stoi(s.c_str());
     }
 
+    template <typename T>
+    static std::string& intToStr(const T& i)
+    {
+        return std::to_string(i);
+    }
+
 private:
     AoCUtilities() { }
 
