@@ -7,10 +7,13 @@ template<class Output>
 class DayBase
 {
 public:
-	DayBase<Output>(const std::string& file) : m_file{ file } 
+	DayBase<Output>(const std::string& file) : m_file{ file }
 	{
-		m_name = m_file.substr(0, input.find("."));
-		m_name[0].std::toupper();
+		const std::size_t slash{ m_file.find_last_of("/") };
+		std::string day{ m_file.substr(slash + 1) };
+		const std::size_t dot{ day.find(".") };
+		m_name = day.substr(0, dot);
+		m_name[0] -= ('a' - 'A');
 	}
 	virtual ~DayBase() {};
 
@@ -18,7 +21,6 @@ public:
 	virtual void part2() = 0;
 	virtual void setOutput() = 0;
 
-	[inline]
     const std::string& getName() const { return m_name; }
 
 protected:

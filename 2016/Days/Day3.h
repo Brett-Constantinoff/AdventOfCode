@@ -7,16 +7,13 @@ class Day3 : public DayBase<Output>
 public:
     Day3<Output>(std::string file) : DayBase(file)
     {
-        auto& utils = AoCUtilities::getInstance();
-        utils.display([this]() { this->part1(); }, false);
-        utils.display([this]() { this->part2(); }, true);
+        AoCUtilities::getInstance().display(*this);
     }
 
     ~Day3() {}
 
     void part1() override
     {
-        setOutput();
         const std::size_t size{ m_output.size() };
         int32_t valid{};
         for (std::size_t i{ 0 }; i < size - 3; i += 3)
@@ -24,7 +21,7 @@ public:
             if (isValidTriangle(m_output[i], m_output[i + 1], m_output[i + 2]))
 				valid++;
         }
-        std::cout << valid;
+        //std::cout << m_name << " part1 - " << valid << '\n';
     }
 
     void part2() override
@@ -37,7 +34,7 @@ public:
             if (isValidTriangle(m_output[i + 1], m_output[i + 4], m_output[i + 7])) valid++;
             if (isValidTriangle(m_output[i + 2], m_output[i + 5], m_output[i + 8])) valid++;
         }
-        std::cout << valid;
+        //std::cout << m_name << " part2 - " << valid << '\n';
     }
 
     void setOutput() override

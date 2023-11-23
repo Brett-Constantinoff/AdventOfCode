@@ -6,6 +6,7 @@
 #include <numeric>
 #include <set>
 #include <unordered_map>
+#include <map>
 
 #include "DayBase.h"
 #include "AoCUtilities.h"

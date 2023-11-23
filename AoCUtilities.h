@@ -20,12 +20,12 @@ public:
     }
 
     template <typename T>
-    static void display(const T& day) {
-        auto& timer = Timer::getInstance();
-        timer.start();
+    static void display(T& day) {
+        Timer::getInstance().start();
+        day.setOutput();
         day.part1();
         day.part2();
-        timer.stop(day.getName());
+        Timer::getInstance().stop(day.getName());
     }
 
     static std::string fileToString(const std::string& file)

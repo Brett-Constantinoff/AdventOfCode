@@ -7,9 +7,7 @@ class Day2 : public DayBase<Output>
 public:
     Day2<Output>(std::string file) : DayBase(file)
     {
-        auto& utils = AoCUtilities::getInstance();
-        utils.display([this]() { this->part1(); }, false);
-        utils.display([this]() { this->part2(); }, true);
+        AoCUtilities::getInstance().display(*this);
     }
 
     ~Day2() {}
@@ -48,7 +46,7 @@ private:
             validButton(buttons, coord, instruction);
         }
         auto it{ buttons.find(coord) };
-        if (it != buttons.end()) std::cout << it->second;
+        //if (it != buttons.end()) std::cout << it->second;
     }
 
     void validButton(const std::unordered_map<Vec2<int32_t>, std::string>& buttons, Vec2<int32_t>& coord, 

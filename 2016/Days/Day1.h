@@ -7,7 +7,6 @@ class Day1 : public DayBase<Output>
 public:
     Day1<Output>(std::string file) : DayBase(file)
     {
-        setOutput();
         AoCUtilities::getInstance().display(*this);
     }
 
@@ -22,7 +21,7 @@ public:
 
         for (const auto coord : m_output)
             processCoordinate(coord, utils, dest);
-       std::cout << origin.manhatten(dest);
+       //std::cout << origin.manhatten(dest);
     }
 
     void part2() override
@@ -41,7 +40,6 @@ public:
                 if (moveAndUpdateSeen(dest, origin, seen))
                     return;
             }
-               
         }
     }
 
@@ -94,7 +92,7 @@ private:
         {
             if (dest.x == point.x && dest.y == point.y)
             {
-                std::cout << origin.manhatten(dest);
+                //std::cout << origin.manhatten(dest);
                 return true;
             }
         }
