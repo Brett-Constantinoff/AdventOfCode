@@ -21,8 +21,8 @@ public:
 
     template <typename T>
     static void display(T& day) {
-        Timer::getInstance().start();
         day.setOutput();
+        Timer::getInstance().start();
         day.part1();
         day.part2();
         Timer::getInstance().stop(day.getName());
