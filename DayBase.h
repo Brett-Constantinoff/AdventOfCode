@@ -3,7 +3,7 @@
 #include <iostream>
 #include <functional>
 
-template<class Output>
+template<class Output = std::string>
 class DayBase
 {
 public:

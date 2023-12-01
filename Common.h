@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <cctype>
 #include <algorithm>
 #include <unordered_set>
 #include <numeric>
@@ -68,7 +69,7 @@ static int32_t strToIntConverter(const std::string& str)
 }
 
 template <typename T>
-static std::string& intToStrConverter(const T& i)
+static std::string intToStrConverter(const T& i)
 {
 	return AoCUtilities::getInstance().intToStr<T>(i);
 }

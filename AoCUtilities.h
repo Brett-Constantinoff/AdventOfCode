@@ -75,6 +75,7 @@ public:
         return data;
     }
 
+
     static int32_t count(const char c, const std::string input)
     {
         return std::count(input.begin(), input.end(), c );
@@ -86,7 +87,7 @@ public:
     }
 
     template <typename T>
-    static std::string& intToStr(const T& i)
+    static std::string intToStr(const T& i)
     {
         return std::to_string(i);
     }
