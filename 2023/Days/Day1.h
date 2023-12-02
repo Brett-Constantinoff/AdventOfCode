@@ -25,6 +25,7 @@ public:
 			char lastDigit = (lastDigitIt != line.rend()) ? *lastDigitIt : '0';
 			sum += (firstDigit - '0') * 10 + (lastDigit - '0');
 		}
+		//std::cout << "Part 1 - " << sum << '\n';
 	}
 
 	void part2() override
@@ -57,6 +58,7 @@ public:
 				}
 			}
 		}
+		//std::cout << "Part 2 - " << sum << '\n';
 	}
 
 	void setOutput() override

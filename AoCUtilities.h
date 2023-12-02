@@ -157,11 +157,9 @@ private:
 
         std::istringstream ss{ line };
         std::string value{};
-        while (std::getline(ss, line, delim))
-        {
-            if (std::istringstream(line) >> value)
-               fileData.emplace_back(converter(value));
-        }
+
+        while (std::getline(ss, value, delim))
+            fileData.emplace_back(converter(value));
     }
 };
 
